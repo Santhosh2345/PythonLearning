@@ -1,4 +1,6 @@
 test_name,status,duration_ms
-Smoke Test,Success,200.45
+Smoke Test,Pass,200.45
 Sanity Test,Fail,500
-Setting Test,Success,200.45
+Setting Test,Pass,200.45
+Home page Test,Fail,500
+Cart page Test,Fail,200.45

@@ -1,0 +1,40 @@
+{
+    "user_expenses": [
+        {
+            "id": 1,
+            "amount": 1.0,
+            "category": "a",
+            "description": "one"
+        },
+        {
+            "id": 2,
+            "amount": 2.0,
+            "category": "a",
+            "description": "two"
+        },
+        {
+            "id": 3,
+            "amount": 3.0,
+            "category": "b",
+            "description": "three"
+        },
+        {
+            "id": 4,
+            "amount": 4.0,
+            "category": "a",
+            "description": "four"
+        },
+        {
+            "id": 5,
+            "amount": 5.0,
+            "category": "a",
+            "description": "a"
+        },
+        {
+            "id": 6,
+            "amount": 6.0,
+            "category": "b",
+            "description": "b"
+        }
+    ]
+}
