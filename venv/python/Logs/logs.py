@@ -11,7 +11,7 @@ dirname = os.path.dirname(os.path.abspath(__file__))
 print((dirname))
 project_root_path = os.path.join(dirname, "..", "..", "..", "Test_Data")
 print(project_root_path)
-logging.basicConfig(filename=f'{project_root_path}//writing_logs.txt', level=logging.INFO, format="%(asctime)s - %(levelname)s -%(message)s")
+logging.basicConfig(filename=f'{project_root_path}//writing_logs.txt', level=logging.INFO, format="%(asctime)s - %(levelname)s -%(message)s", filemode="w")
 
 logging.debug("This is DEBUG")
 logging.info("This is INFO")
@@ -33,33 +33,50 @@ def intConversion(string):
 intConversion("sdfe234")
 
 class API:
-    user_details = None
-    def __init__(self, url="https://jsonplaceholder.typicode.com/"):
+
+    def __init__(self, url="https://jsonplaceholder.typicode.com/" ):
         self.url = url
+        self.user_details = None
 
     def getting_user_details(self, user_id):
         try:
             logging.info("Test starts")
             response = requests.get(f'{self.url}users/{user_id}')
             response.raise_for_status()
+            assert response.status_code == 200, "Getting response status code error"
             print(f'Response status code: {response.status_code}')
-            global user_details
-            user_details = response.json()
-            print(json.dumps(user_details, indent=4))
+            self.user_details = response.json()
+            json.dumps(self.user_details, indent=4)
         except requests.exceptions.HTTPError:
             logging.error(f'user_id={user_id} failed with status {response.status_code}')
 
     def getting_user_city(self):
-        global user_details
-        return user_details.get("address").get("city")
+        return self.user_details.get("address").get("city")
+
+    def getting_user_detail_custom(self, key):
+        return self.user_details.get(key)
 
 url = "https://jsonplaceholder.typicode.com/"
-api = API(url)
-user_ids = [1,1,3]
+user_id_list = [1, 1, 3]
+user_name_list = ["Leanne Graham", "Clementine Bauch"]
 user_city_list = []
-for user_id in user_ids:
-    api.getting_user_details(user_id)
-    print(api.getting_user_city())
-    if api.getting_user_city() not in user_city_list:
-        user_city_list.append(api.getting_user_city())
+user_name = None
+api = API(url)
+
+def tes():
+    for user_id in user_id_list:
+        api.getting_user_details(user_id)
+        global user_name
+        user_name = api.getting_user_detail_custom("name")
+
+        if user_name in user_name_list:
+            logging.info(f'{user_name} exist in user_names variable')
+        else:
+            logging.warning(f'{user_name} not in user_names variable')
+
+        if api.getting_user_city() not in user_city_list:
+            user_city_list.append(api.getting_user_city())
+
+tes()
 print(user_city_list)
+print(f'String contains user name: {user_name}')
