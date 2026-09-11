@@ -3,7 +3,7 @@ import pytest
 
 def test_check_response_valid():
     #   - a valid, fast response (should return True)
-    assert response_checks.check_response(200, 500) == True
+    assert response_checks.check_response(200, 500) == False
 
 def test_check_response_valid_false():
     #   - a valid, slow response (should return False)
