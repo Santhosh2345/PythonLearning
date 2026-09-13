@@ -1,0 +1,3 @@
+status,average_duration_ms,test_name
+Fail,410.0,"test_logout,test_checkout"
+Pass,107.5,"test_login,test_signup"
