@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import os
 
@@ -41,3 +42,25 @@ print(f'Sorted test name: \n{df_sorted["test_name"]
                              .explode()
                              .str.strip()
                              .to_list()}')
+
+# Geeting multiple columns from a DataFrame
+df_multiple_columns = df[["test_name", "duration_ms"]]
+print(f'Multiple columns from DataFrame: \n{df_multiple_columns}')
+
+test_data2 = {
+    "test_name": [None, "test_info"],
+    "status": ["Fail", None],
+    "duration_ms1": [np.nan, 200]
+}
+df2 = pd.DataFrame(test_data2)
+
+df_merged = df.merge(df2, on="test_name", how="outer", suffixes=("_df1", "_df2"))
+print(f'Merged DataFrame: \n{df_merged}')
+
+print(f'Selected row by index:\n{df.iloc[0:1]}')
+print(f'Selected row by label:\n{df.loc[1, "status"]}')
+print(f'Selected row by label:\n{df.loc[0:1, ["status", "duration_ms"]]}')
+print(f'Selected row by label:\n{df.loc[0:2, ["test_name", "status"]][df.loc[0:2, "status"] == "Fail"]}')
+
+print(f'Empty cell value:\n {df_merged.isna().sum()}')
+print(f'Is null value:\n {df_merged.isnull()}')
