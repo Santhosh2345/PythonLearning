@@ -1,0 +1,38 @@
+from sentence_transformers import SentenceTransformer, util
+
+model = SentenceTransformer('all-MiniLM-L6-V2')
+
+bug_reports = [
+    "Application crashes when uploading a file larger than 10MB",
+    "Login page throws a 500 error on invalid password after 3 attempts",
+    "Search results are not sorted correctly by price",
+    "Session times out too quickly on the checkout page",
+    "Uploading a PDF causes the server to hang"
+]
+
+# 1. Embed all bug reports
+bug_reports_embeddings = model.encode(bug_reports)
+
+# 2. Take a new query: "file upload is broken" — embed it too
+query = "file upload is broken"
+
+query_embedding = model.encode(query)
+
+# 3. Compute cosine similarity between the query and every bug report
+similarity_score = util.cos_sim(query_embedding, bug_reports_embeddings)[0]
+highest_to_low = similarity_score.argsort(descending=True)
+
+# 4. Print all bug reports sorted by similarity score, highest first (most relevant bug first)
+print(f'Order of similarity of query (High similarity first): ')
+for index in highest_to_low:
+    print(f'    {bug_reports[index]}')
+
+# 5. Bonus: try a second query, like "users getting logged out unexpectedly", 
+# and observe which reports rank highest
+query2 = "users getting logged out unexpectedly"
+
+query2_embedding = model.encode(query2)
+
+tensor_score = util.cos_sim(query2_embedding, bug_reports_embeddings)[0]
+highest_similarity = tensor_score.argmax()
+print(f'2nd Query\'s highest similarity: {bug_reports[highest_similarity]}')
